@@ -14,10 +14,10 @@ class WeightCalculator:
             self.weight = weight # kg
             self.height = height # m
 
-            self.starting_squat = 115
-            self.starting_bench = 95
-            self.starting_press = 75
-            self.starting_deadlift = 135
+            self.starting_squat = 135
+            self.starting_bench = 115
+            self.starting_press = 65
+            self.starting_deadlift = 150
             self.starting_clean = 75
 
             self.smallest_weight_increase = 5
@@ -88,7 +88,7 @@ def main():
     pretty_print(calc.low_light_rep(3, 'bench'))
     pretty_print(calc.low_light_rep(3, 'press'))
     pretty_print(calc.low_light_rep(3, 'clean'))
-    pretty_print(calc.low_heavy_rep(4, 'deadlift'))
+    pretty_print(calc.low_heavy_rep(1, 'deadlift'))
 
 if __name__ == '__main__':
     main()
