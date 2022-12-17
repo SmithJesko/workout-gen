@@ -16,9 +16,9 @@ class WeightCalculator:
 
             self.starting_squat = 115
             self.starting_bench = 95
-            self.starting_press = 0
-            self.starting_deadlift = 0
-            self.starting_clean = 0
+            self.starting_press = 75
+            self.starting_deadlift = 135
+            self.starting_clean = 75
 
             self.smallest_weight_increase = 5
             self.largest_weight_increase = 15
@@ -37,17 +37,15 @@ class WeightCalculator:
             # > 40 = morbidly obese
             return self.weight / (self.height * self.height) # BMI = kg/m2
 
-        def low_light_rep(self, sets, lift):
+        def low_light_rep(self, sets, lift):    # min rep, min weight increase
             if lift == 'squat':
                 starting_weight = self.starting_squat
             elif lift == 'bench':
                 starting_weight = self.starting_bench
             elif lift == 'press':
                 starting_weight = self.starting_press
-            # elif lift == 'deadlift':
-            #     starting_weight = self.starting_deadlift
-            # elif lift == 'clean':
-            #     starting_weight = self.starting_clean
+            elif lift == 'clean':
+                starting_weight = self.starting_clean
             else:
                 print('Invalid lift')
                 return
@@ -57,14 +55,14 @@ class WeightCalculator:
             for i in range(1, sets+1):
                 counter = i
                 lift_dict[counter] = []
-                lift = starting_weight + (self.smallest_weight_increase * i)
+                lift = starting_weight + (self.smallest_weight_increase * (i-1))
                 warmup = int(lift * self.warmup_percent)
                 lift_dict[counter].append([warmup, self.warmup_reps, lift, self.smallest_reps])
             return lift_dict
 
-        def low_heavy_rep(self, sets, lift):
-            if lift == 'clean':
-                starting_weight = self.starting_squat
+        def low_heavy_rep(self, sets, lift):    # min rep, max weight increase
+            if lift == 'deadlift':
+                starting_weight = self.starting_deadlift
             else:
                 print('Invalid lift')
                 return
@@ -74,7 +72,7 @@ class WeightCalculator:
             for i in range(1, sets+1):
                 counter = i
                 lift_dict[counter] = []
-                lift = starting_weight + (self.largest_weight_increase * i)
+                lift = starting_weight + (self.largest_weight_increase * (i-1))
                 warmup = int(lift * self.warmup_percent)
                 lift_dict[counter].append([warmup, self.warmup_reps, lift, self.smallest_reps])
             return lift_dict
@@ -86,8 +84,11 @@ def main():
 
     # print(calc.low_rep(3, 'squat'))
     # print(calc.low_rep(3, 'bench'))
+    pretty_print(calc.low_light_rep(3, 'squat'))
     pretty_print(calc.low_light_rep(3, 'bench'))
-    pretty_print(calc.low_heavy_rep(3, 'clean'))
+    pretty_print(calc.low_light_rep(3, 'press'))
+    pretty_print(calc.low_light_rep(3, 'clean'))
+    pretty_print(calc.low_heavy_rep(4, 'deadlift'))
 
 if __name__ == '__main__':
     main()
